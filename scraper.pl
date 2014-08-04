@@ -9,6 +9,7 @@ use warnings;
 use Database::DumpTruck;
 use Digest::MD5;
 use Encode qw(decode_utf8);
+use English;
 use File::Spec::Functions qw(catfile);
 use File::Temp qw(tempfile);
 use LWP::UserAgent;
@@ -85,14 +86,28 @@ sub save_file {
 		$part = int($1);
 	}
 	my $link = $base_uri->scheme.'://'.$base_uri->host.$file;
-	my $md5 = md5($link);
-	print "Part $part: $link\n";
-	$dt->insert({
-		'Part' => $part,
-		'Link' => $link,
-		'MD5' => $md5,
-	});
-	# TODO Move to begin with create_table().
-	$dt->create_index(['MD5'], 'data', 1, 0);
+	my $ret_ar = eval {
+		$dt->execute('SELECT COUNT(*) FROM data '.
+			'WHERE Link = ?', $link);
+	};
+	if ($EVAL_ERROR || ! @{$ret_ar}
+		|| ! exists $ret_ar->[0]->{'count(*)'}
+		|| ! defined $ret_ar->[0]->{'count(*)'}
+		|| $ret_ar->[0]->{'count(*)'} == 0) {
+
+		my $md5 = md5($link);
+		if (! defined $md5) {
+			print "Cannot get document for $link.\n";
+		} else {
+			print "Part $part: $link\n";
+			$dt->insert({
+				'Part' => $part,
+				'Link' => $link,
+				'MD5' => $md5,
+			});
+			# TODO Move to begin with create_table().
+			$dt->create_index(['MD5'], 'data', 1, 0);
+		}
+	}
 	return;
 }
