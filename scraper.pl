@@ -102,7 +102,10 @@ sub save_file {
 		if (! defined $md5) {
 			print "Cannot get document for $link.\n";
 		} else {
-			print "Part $part: $link\n";
+			if (defined $part) {
+				print "Part $part: ";
+			}
+			print "$link\n";
 			$dt->insert({
 				'Part' => $part,
 				'Link' => $link,
