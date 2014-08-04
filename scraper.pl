@@ -16,6 +16,9 @@ use LWP::UserAgent;
 use Net::FTP;
 use URI;
 
+# Don't buffer.
+$OUTPUT_AUTOFLUSH = 1;
+
 # URI of service.
 my $base_uri = URI->new('ftp://medical.nema.org/medical/dicom/2014a/source/docbook/');
 
