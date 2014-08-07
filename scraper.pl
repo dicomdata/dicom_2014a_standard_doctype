@@ -19,6 +19,9 @@ use URI;
 # Don't buffer.
 $OUTPUT_AUTOFLUSH = 1;
 
+# Timeout.
+my $TIMEOUT = 1;
+
 # URI of service.
 my $base_uri = URI->new('ftp://medical.nema.org/medical/dicom/2014a/source/docbook/');
 
@@ -115,5 +118,6 @@ sub save_file {
 			$dt->create_index(['MD5'], 'data', 1, 0);
 		}
 	}
+	sleep $TIMEOUT;
 	return;
 }
