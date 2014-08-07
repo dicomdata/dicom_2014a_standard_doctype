@@ -52,7 +52,7 @@ sub list {
 	my @list = $ftp->dir;
 	my @ret;
 	foreach my $list_item (@list) {
-		my ($date, $time, $type, $file) = split qr{\s+}, $list_item;
+		my ($date, $time, $type, $file) = split qr{\s+}, $list_item, 4;
 		push @ret, [$type, $file];
 	}
 	return @ret;
