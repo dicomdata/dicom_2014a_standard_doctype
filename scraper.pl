@@ -83,11 +83,11 @@ sub process_files {
 	my $path = shift;
 	my @files;
 	foreach my $file_or_dir_ar (list()) {
-		my $pwd = $ftp->pwd;
 		if ($file_or_dir_ar->[0] ne '<DIR>') {
 			my $file = catfile($path, $file_or_dir_ar->[1]);
 			save_file($file);
 		} else {
+			my $pwd = $ftp->pwd;
 			$ftp->cwd($file_or_dir_ar->[1]);
 			process_files(catfile($path, $file_or_dir_ar->[1]));
 			$ftp->cwd($pwd);
