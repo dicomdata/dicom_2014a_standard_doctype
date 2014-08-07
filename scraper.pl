@@ -47,6 +47,17 @@ if (! $ftp->login('anonymous', 'anonymous@')) {
 $ftp->cwd($base_uri->path);
 process_files($base_uri->path);
 
+# List.
+sub list {
+	my @list = $ftp->dir;
+	my @ret;
+	foreach my $list_item (@list) {
+		my ($date, $time, $type, $file) = split qr{\s+}, $list_item;
+		push @ret, [$type, $file];
+	}
+	return @ret;
+}
+
 # Get link and compute MD5 sum.
 sub md5 {
 	my $link = shift;
@@ -71,13 +82,14 @@ sub md5 {
 sub process_files {
 	my $path = shift;
 	my @files;
-	foreach my $file_or_dir ($ftp->ls) {
+	foreach my $file_or_dir_ar (list()) {
 		my $pwd = $ftp->pwd;
-		if (! $ftp->cwd($file_or_dir)) {
-			my $file = catfile($path, $file_or_dir);
+		if ($file_or_dir_ar->[0] ne '<DIR>') {
+			my $file = catfile($path, $file_or_dir_ar->[1]);
 			save_file($file);
 		} else {
-			process_files(catfile($path, $file_or_dir));
+			$ftp->cwd($file_or_dir_ar->[1]);
+			process_files(catfile($path, $file_or_dir_ar->[1]));
 			$ftp->cwd($pwd);
 		}
 	}

@@ -1,6 +1,5 @@
 TODO
 ====
-1. Nahradit ! $ftp->cwd za zjisteni pres dir.
 3. Je tady chyba, kdy ve vyslednych datech jsou nektere adresare a k nim checksum.
 4.
 
@@ -8,3 +7,6 @@ Applied
 =======
 2. Uz ulozena data znova neukladat.
 OK [20140804] skim
+
+1. Nahradit ! $ftp->cwd za zjisteni pres dir.
+OK [20140807] skim
