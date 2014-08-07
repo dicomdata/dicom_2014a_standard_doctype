@@ -129,7 +129,7 @@ sub save_file {
 			# TODO Move to begin with create_table().
 			$dt->create_index(['MD5'], 'data', 1, 0);
 		}
+		sleep $TIMEOUT;
 	}
-	sleep $TIMEOUT;
 	return;
 }
