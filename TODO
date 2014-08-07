@@ -1,6 +1,5 @@
 TODO
 ====
-3. Je tady chyba, kdy ve vyslednych datech jsou nektere adresare a k nim checksum.
 4.
 
 Applied
@@ -9,4 +8,8 @@ Applied
 OK [20140804] skim
 
 1. Nahradit ! $ftp->cwd za zjisteni pres dir.
+OK [20140807] skim
+
+3. Je tady chyba, kdy ve vyslednych datech jsou nektere adresare a k nim checksum.
+Vypada to celkem v pohode az na to, ze to nezvlada hodne commandu po sobe.
 OK [20140807] skim
